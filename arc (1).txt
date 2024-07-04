@@ -1,0 +1,219 @@
+step 1: we will get mail from sql team to stop all the batches, stop(run batch and then also check manually all servers) and reply them
+
+
+
+step 2:
+after 1 hr we will get mail as
+
+
+
+Step 3 has been completed. Please proceed with archival batch run and confirm.
+
+
+
+now 1st go to 130.40->d->batches-automation->sql archverification
+
+
+
+then go to cmd(run as admin)
+d:
+cd above path(d->batches-automation->sql archverification)
+click tab to get checkserversonline.bat
+enter
+
+
+
+here we need to check all servers and tomcats are down or not
+
+
+
+192.32/192.28 are same so this will be up
+
+
+
+now login to 192.28->d->daf2->batch->config->log4j_archive->log4j(open this with notepad++)
+
+
+
+here change the date to current date(not js date) archivebatch_17oct21.log
+
+
+
+now we can start archival batch
+
+
+
+cmd in admin mode
+
+
+
+d:
+cd d:\daf2\scripts\archive
+tab (archivebatch.bat)
+
+
+
+now we can mail to them
+
+
+
+Hi Anand,
+
+
+
+Step 4 : Completed.
+
+
+
+Step 6: We have started the archival batch. We'll provide an update for every 2hrs.
+
+
+
+Regards,
+Sravanthi
+
+
+
+
+for evry 2 hours we need to check for exceptions in logs
+
+
+
+d->daf2->logs->archive-stats file and archivebatch_17oct21
+
+
+
+
+
+after batch completes mail them
+
+
+
+Hi All,
+
+
+
+Archival batch run is completed. We are proceeding with count verification.
+
+
+
+Regards,
+Sravanthi
+
+------------------------------------------------------------
+
+/* ***************************************************************************************************
+     Scripts to be executed post Archival
+	 These scripts validate the data that has been archived
+* ***************************************************************************************************/
+
+/*  Query may return either of the below stage and status of the process that has been archived.Only Process in EX,NK,XX & are complete should be archived
+
+OutPut:-
+	current_stage	current_state
+	EX				COMPLETE
+	NK				COMPLETE
+	XX				COMPLETE
+*/
+select current_stage,current_state from daf2_arch.tbt_process_info_archive group by current_stage;
+
+/*  Query may return either of the below stage and status of the documents that has been archived.Only documents that are [XX Complete/TR FAILED] should be archived
+
+OutPut:-
+	stage	status
+	XX		COMPLETE
+	TR 		FAILED
+
+*/
+select stage,status from daf2_arch.tbt_document_archive group by stage;
+
+----------------------------------------------------------------------------------------
+
+
+now go to
+
+
+
+130.40->d->batches-automation->sql archverification
+
+
+
+then go to cmd(run as admin)
+d:
+cd above path(d->batches-automation->sql archverification)
+click tab to get Post_SQLArchivalVerify.bat
+enter
+
+update tbm_county set wk_film_id=301493,return_index_images_flag='D',action_type='AUTOMATION',
+modified_dttm=now(),modified_by='TechSup',active_flag='A' where fips_code='48397';
+
+
+
+1. > select * from tbt_doc_ticket where identifier_type = 'DOC'; (Pri)
+2. > select * from tbt_doc_ticket_archive where identifier_type = 'DOC';
+3. > select * from tbt_doc_ticket where identifier_type = 'DOC';  (sec)
+       3= 2+1 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
+HybridSmartOpsMW@cognizant.com 
+
+Tomcat Restart to middleware team. Raise SR:
+
+Hi Team, 
+  
+Due ongoing archival activity, kindly stop the tomcat restart activity of 9:30 pm on 12th December,2021 i.e., today. 
+We have raised an SR SR2587055 and added it to your cart. 
+
+Thanks & Regards,
+Sharan
+
+---------------
+
+Window reboot 
+
+Hi Wintel Team,
+ 
+Kindly request you to reboot 10.56.134.63,10.56.134.64, & 10.56.198.37 servers, once SQL Archival is completed. We will update you, 
+post archival activity completion. We have created a SR (SR2587056) for the same and assigned to your cart. 
+ 
+Regards,
+Sharan
+----------------
+
+We have enabled the replication between 27 and 28 server, Please check and confirm from your end.
+
+----------------
+
+select * from tbc_user_mst where user_cd = '835997'  
+
+
+update tbc_user_mst set active_flag = 'D' where user_cd = '835997'
+
+Hi Anukruti, 
+ 
+We have verified replication in .27 and .28 DB and it is working fine. The count of tables, views and triggers is same in .27 and .28 DB. 
+PFB the screenshot.   
+
+------------------
+Hi Sharanjeet,
+
+All the tomcat servers are up now. Please validate from application end and confirm. Please find the screenshots of dB sizes before and after the archival.
+ 
+Daf2 before archival – 156.8 GB
+Daf2 after archival – 114.3 GB
+Total archived data size – 42.5 GB
+-----------------------------------
+
+Thanks for the confirmation, Anukruti.  We will start the batches and confirm.
+
+-----------------------------
+Hi Wintel Team,   
+   
+Archival activity got completed. Kindly reboot the servers and confirm us.   
+   
+Thanks & Regards,  
+Sharan  
